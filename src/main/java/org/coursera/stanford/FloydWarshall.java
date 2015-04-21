@@ -16,12 +16,12 @@ public class FloydWarshall {
 
     public static void main(String[] args) {
         Long firstSP = findShortestOfShortestPaths("X:\\work\\AlgoPractice\\src\\main\\resources\\APSPg1.txt");
-//        Long secondSP = findShortestOfShortestPaths("X:\\work\\AlgoPractice\\src\\main\\resources\\APSPg2.txt");
-//        Long thirdSP = findShortestOfShortestPaths("X:\\work\\AlgoPractice\\src\\main\\resources\\APSPg3.txt");
+        Long secondSP = findShortestOfShortestPaths("X:\\work\\AlgoPractice\\src\\main\\resources\\APSPg2.txt");
+        Long thirdSP = findShortestOfShortestPaths("X:\\work\\AlgoPractice\\src\\main\\resources\\APSPg3.txt");
 
         System.out.println("firstSP=" + firstSP);
-//        System.out.println("secondSP=" + secondSP);
-//        System.out.println("thirdSP=" + thirdSP);
+        System.out.println("secondSP=" + secondSP);
+        System.out.println("thirdSP=" + thirdSP);
 
     }
 
@@ -31,15 +31,14 @@ public class FloydWarshall {
 
             String line1 = linesIterator.next();
             vertexCount = Integer.parseInt(line1.split(" ")[0]);
-          //  reverseGraph = new ReverseGraph(vertexCount, Integer.parseInt(line1.split(" ")[1])) ;
 
-            System.out.printf("Integer.MAX_VALUE < " + (vertexCount * vertexCount * (vertexCount + 1)) + " = " + (Integer.MAX_VALUE < (vertexCount * vertexCount * (vertexCount + 1))));
-            int[] dpT = new int[vertexCount*vertexCount*(vertexCount+1)];//[vertexCount][vertexCount + 1];
+            //System.out.printf("Integer.MAX_VALUE < " + (vertexCount * vertexCount * (vertexCount + 1)) + " = " + (Integer.MAX_VALUE < (vertexCount * vertexCount * (vertexCount + 1))));
+            dpTable = new long[2][vertexCount][vertexCount];
 
             for (int i = 0;i < vertexCount; i++)
                 for (int j =0; j < vertexCount; j++)
                     if (i != j) {
-                        dpTable[i][j][0] =  Long.MAX_VALUE;
+                        dpTable[0][i][j] =  Long.MAX_VALUE;
                     }
 
             while (linesIterator.hasNext()) {
@@ -48,8 +47,7 @@ public class FloydWarshall {
                     head   = Integer.parseInt(line.split(" ")[1]),
                     weight = Integer.parseInt(line.split(" ")[2]);
 
-            //    reverseGraph.addReverseEdge(tail, head, weight);
-                dpTable[tail-1][head-1][0] = weight;
+                dpTable[0][tail-1][head-1] = weight;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,31 +57,37 @@ public class FloydWarshall {
     public static Long findShortestOfShortestPaths(String filePath) {
         Long ssp = Long.MAX_VALUE;
         boolean hasNegativeCycle = false;
-
+        int previous = 0, current = 1;
         initialize(filePath);
 
-        for (int k = 1; k <= vertexCount; k++)
-            for (int i =0; i < vertexCount; i++)
+        for (int k = 1; k <= vertexCount; k++) {
+            for (int i = 0; i < vertexCount; i++){
                 for (int j = 0; j < vertexCount; j++) {
                     long minInclK = Long.MAX_VALUE;
-                    if (dpTable[i][k-1][k-1] == Long.MAX_VALUE || dpTable[k-1][j][k-1] == Long.MAX_VALUE) {
+                    if (dpTable[previous][i][k - 1] == Long.MAX_VALUE || dpTable[previous][k - 1][j] == Long.MAX_VALUE) {
                         minInclK = Long.MAX_VALUE;
                     } else {
-                        minInclK = dpTable[i][k-1][k-1] + dpTable[k-1][j][k-1];
+                        minInclK = dpTable[previous][i][k - 1] + dpTable[previous][k - 1][j];
                     }
-                    dpTable[i][j][k] = Math.min(dpTable[i][j][k-1], minInclK);
+                    dpTable[current][i][j] = Math.min(dpTable[previous][i][j], minInclK);
 
                     if (k == vertexCount) {
-                        if (dpTable[i][j][k] < ssp) {
-                            ssp = dpTable[i][j][k];
+                        if (dpTable[current][i][j] < ssp) {
+                            ssp = dpTable[current][i][j];
                         }
                     }
                 }
-
-        for (int i = 0; i < vertexCount; i++)
-            if (dpTable[i][i][vertexCount] < 0) {
-                return null;
             }
+
+            // Search for a negative cycle.
+            for (int i = 0; i < vertexCount; i++) {
+                if (dpTable[current][i][i] < 0) {
+                    return null;
+                }
+            }
+            previous = 1 - previous;
+            current  = 1 - current;
+        }
         return ssp;
     }
 }
