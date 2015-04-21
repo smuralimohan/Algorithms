@@ -32,16 +32,16 @@ public class KnapsackBasic {
 
         for (int w = 1; w <= capacity; w++) {
             for (int i = 1; i <= itemCount; i++) {
-                long prevValue = 0L;
+                long currValue = 0L;
 
                 int wi = weights.get(i-1);
                 if (w-wi >= 0) {
-                    prevValue = dpTable[w-wi][i-1] + values.get(i-1) + 0L;
+                    currValue = dpTable[w-wi][i-1] + values.get(i-1) + 0L;
                 } else {
-                    prevValue = 0L;
+                    currValue = 0L;
                 }
 
-                long maxValue = Math.max(dpTable[w][i-1], prevValue);
+                long maxValue = Math.max(dpTable[w][i-1], currValue);
                 dpTable[w][i] = maxValue;
             }
         }
