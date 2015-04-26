@@ -78,7 +78,6 @@ public class FloydWarshall {
                     }
                 }
             }
-
             // Search for a negative cycle.
             for (int i = 0; i < vertexCount; i++) {
                 if (dpTable[current][i][i] < 0) {
