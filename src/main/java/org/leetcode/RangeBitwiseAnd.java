@@ -10,7 +10,9 @@ public class RangeBitwiseAnd {
     }
 
     public static int rangeBitwiseAnd(int m, int n) {
-       return rangeBitwiseAndHelper(m,n,30);
+        int i = 30;
+        while( 1<< i > n) i--;
+       return rangeBitwiseAndHelper(m,n,i);
 
     }
 
