@@ -13,7 +13,6 @@ public class RangeBitwiseAnd {
         int i = 30;
         while( 1<< i > n) i--;
        return rangeBitwiseAndHelper(m,n,i);
-
     }
 
     private static int rangeBitwiseAndHelper(int m, int n, int i) {
