@@ -14,10 +14,13 @@ public class SubstringBoyerMooreHorspool {
 
     public static void main(String[] args) {
         SubstringBoyerMooreHorspool substringBoyerMooreHorspool = new SubstringBoyerMooreHorspool();
-        System.out.println(substringBoyerMooreHorspool.indexOf("abcdef","def") + "," + "abcdef".indexOf("def"));
-        System.out.println(substringBoyerMooreHorspool.indexOf("computer","muter") + "," + "computer".indexOf("muter"));
-        System.out.println(substringBoyerMooreHorspool.indexOf("stringmatchingmat","ingmat") + "," + "stringmatchingmat".indexOf("ingmat"));
-        System.out.println(substringBoyerMooreHorspool.indexOf("videobox","videobox") + "," + "videobox".indexOf("videobox"));
+//        System.out.println(substringBoyerMooreHorspool.indexOf("abcdef","def") + "," + "abcdef".indexOf("def"));
+//        System.out.println(substringBoyerMooreHorspool.indexOf("computer","muter") + "," + "computer".indexOf("muter"));
+//        System.out.println(substringBoyerMooreHorspool.indexOf("stringmatchingmat","ingmat") + "," + "stringmatchingmat".indexOf("ingmat"));
+//        System.out.println(substringBoyerMooreHorspool.indexOf("videobox","videobox") + "," + "videobox".indexOf("videobox"));
+        System.out.println(substringBoyerMooreHorspool.indexOf("zqxezzmroxeuwlxnlyprlflsywsdrppsbsurcjovleybbxcjcqghydeapdxyjkdvzdgnnmhguqiapjhchgwctuvchqdvisygggye","yjkdvzdgnnmh") + "," + "zqxezzmroxeuwlxnlyprlflsywsdrppsbsurcjovleybbxcjcqghydeapdxyjkdvzdgnnmhguqiapjhchgwctuvchqdvisygggye".indexOf("yjkdvzdgnnmh"));
+
+
     }
 
     private int getShiftValue(Character c) {
